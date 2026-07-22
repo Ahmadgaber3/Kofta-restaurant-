@@ -15,13 +15,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        /* ================= الثيم الأساسي (تدرج أبيض ناصع وأنيق) ================= */
+        /* ================= الثيم الأساسي (تدرج رمادي هادئ وبسيط) ================= */
         :root, [data-theme="dark"], [data-theme="light"] {
-            /* تدرج خلفية التطبيق بين الأبيض والرمادي الفاتح جداً */
-            --bg: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%); 
-            /* خلفية الكارت باللون الأبيض الصريح مع تدرج ناعم للمجسم */
-            --card-inner-bg: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); 
-            --card-outer-border: #e2e8f0; 
+            /* تدرج متوازن بنسبة بسيطة جداً من الرمادي */
+            --bg: linear-gradient(180deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%); 
+            /* خلفية الكارت ناصعة البياض */
+            --card-inner-bg: #ffffff; 
+            --card-outer-border: #cbd5e1; 
             --card-text: #0f172a; 
             --card-desc-text: #475569; 
             --main-text: #0f172a; 
@@ -30,8 +30,8 @@
             --button-black: #1f1f1f; 
             --white: #ffffff; 
             --header-bg: #ffffff; 
-            /* ظل ناعم للتحديد */
-            --card-shadow: 0 10px 25px rgba(15, 23, 42, 0.06); 
+            /* ظل ناعم ومتناسق */
+            --card-shadow: 0 8px 20px rgba(15, 23, 42, 0.08); 
             --border-color: #e2e8f0; 
             --input-bg: #f8fafc;
         }
@@ -90,7 +90,7 @@
         .splash-hidden { transform: translateY(-100%); pointer-events: none; }
 
         /* ================= الهيدر الداخلي ================= */
-        .sticky-wrapper { position: sticky; top: 0; z-index: 1000; background: #ffffff; border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); }
+        .sticky-wrapper { position: sticky; top: 0; z-index: 1000; background: #ffffff; border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); }
         header { display: flex; flex-direction: column; align-items: center; padding: 14px 0; position: relative; }
         .header-top { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; }
         
@@ -174,7 +174,7 @@
         .cat-item span { font-size: 0.76rem; font-weight: 800; color: var(--desc-text); margin-top: 6px; } 
         .cat-item.active span { color: var(--main-text); font-weight: 900; }
 
-        /* ================= كروت الأصناف بالتدرج الأبيض ================= */
+        /* ================= كروت الأصناف ================= */
         .menu-list { 
             display: flex;
             flex-direction: column;
@@ -186,7 +186,7 @@
         }
 
         .food-card { 
-            background: var(--card-inner-bg); /* تدرج الأبيض والمجسم الناعم */
+            background: var(--card-inner-bg); 
             border-radius: 18px; 
             display: flex; 
             flex-direction: column; 
@@ -258,7 +258,7 @@
             width: 100%;
             margin-top: 6px;
             padding-top: 6px;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid #e2e8f0;
         }
 
         .btn-wrapper {
