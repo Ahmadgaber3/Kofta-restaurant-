@@ -202,7 +202,6 @@
             min-height: 400px; 
         }
 
-        /* 1. الكارت العادي (أفقي) */
         .food-card { 
             background: var(--card-inner-bg); 
             border-radius: 16px; 
@@ -248,7 +247,7 @@
             min-width: 0;
         }
 
-        /* 2. الكارت الكبير */
+        /* الكارت الكبير */
         .food-card.large-food-card {
             padding: 8px 10px 8px 10px; 
             gap: 4px;
@@ -299,6 +298,33 @@
             font-weight: 600;
             line-height: 1.3;
             display: block;
+        }
+
+        /* خيارات الحجم الخاصة بالأرز البسمتي */
+        .rice-size-options {
+            display: flex;
+            gap: 12px;
+            margin-top: 6px;
+            align-items: center;
+        }
+
+        .rice-size-options label {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: var(--main-text);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            background: var(--input-bg);
+            padding: 3px 8px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .rice-size-options input[type="radio"] {
+            accent-color: var(--brand-red);
+            cursor: pointer;
         }
 
         .card-bottom-content {
@@ -450,7 +476,7 @@
 </head>
 <body>
 
-    <!-- شاشة التحميل الحقيقية المرتبطة بالصور -->
+    <!-- شاشة التحميل -->
     <div id="splash-screen">
         <div class="loader-content">
             <div class="loader-logo-final"></div>
@@ -503,7 +529,8 @@
     <footer class="restaurant-footer">
         <div class="footer-address-bar">
             <span class="footer-address-label">📍 العنوان:</span>
-            <span class="footer-address-text">السابعة - أرض الجمعيات - مكان مطعم أبو عماد - السويس</span>
+            <!-- تم تعديل العنوان من السويس إلى الإسماعيلية -->
+            <span class="footer-address-text">السابعة - أرض الجمعيات - مكان مطعم أبو عماد - الإسماعيلية</span>
         </div>
 
         <div class="footer-phones">
@@ -740,7 +767,6 @@
             return parseInt(cleanStr, 10) || 0;
         }
 
-        // دالة التحميل المسبق الديناميكية المرتبطة بشريط التحميل
         function preloadAllImages(imageUrls, callback) {
             if (imageUrls.length === 0) { 
                 updateProgressUI(100); 
@@ -805,7 +831,6 @@
                     };
                 }).filter(Boolean);
 
-                // استخراج قائمة كل الصور المطلوبة في التطبيق
                 const imagesToPreload = ['./images/logooo.png'];
                 menuData.forEach(item => {
                     const catImg = `${IMAGES_PATH}${item.category}.jpg`;
@@ -814,7 +839,6 @@
                     if (!imagesToPreload.includes(foodImg)) imagesToPreload.push(foodImg);
                 });
 
-                // تحميل كل الصور وتحديث الـ Progress bar فعلياً
                 preloadAllImages(imagesToPreload, () => {
                     if(menuData.length > 0) { renderNav(); } 
                     else { document.getElementById('menuList').innerHTML = '<p style="text-align:center; padding:20px;">عذراً، لا توجد بيانات متاحة حالياً.</p>'; }
@@ -854,6 +878,17 @@
                    normalized.includes("مشوي");
         }
 
+        // دالة تغيير حجم الأرز البسمتي وتحديث السعر على الكارت
+        function updateRicePrice(itemId, price, sizeText) {
+            const priceEl = document.getElementById(`price-num-${itemId}`);
+            const btnEl = document.getElementById(`btn-${itemId}`);
+            if (priceEl) priceEl.innerText = price;
+            if (btnEl) {
+                btnEl.setAttribute('data-price', price);
+                btnEl.setAttribute('data-size', sizeText);
+            }
+        }
+
         function filterCat(cat, el) {
             if(el) { document.querySelectorAll('.cat-item').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
             const filtered = menuData.filter(i => i.category === cat);
@@ -866,6 +901,23 @@
                     ingredientsElement = `<span class="food-ingredients">${item.desc.trim()}</span>`;
                 }
 
+                // فحص ما إذا كان الصنف هو الأرز البسمتي لإضافة خياري (طبق / كيلو)
+                const isRice = item.name.includes("أرز بسمتي") || item.name.includes("رز بسمتي");
+                let riceOptionsHtml = "";
+                if (isRice) {
+                    riceOptionsHtml = `
+                    <div class="rice-size-options">
+                        <label>
+                            <input type="radio" name="rice_size_${item.id}" value="40" checked onclick="updateRicePrice(${item.id}, 40, 'طبق')">
+                            طبق (40 ج.م)
+                        </label>
+                        <label>
+                            <input type="radio" name="rice_size_${item.id}" value="110" onclick="updateRicePrice(${item.id}, 110, 'كيلو')">
+                            كيلو (110 ج.م)
+                        </label>
+                    </div>`;
+                }
+
                 return `
                 <div class="food-card ${isLarge ? 'large-food-card' : ''}" id="card-${item.id}">
                     <div class="card-top-content">
@@ -875,17 +927,18 @@
                         <div class="card-details-wrapper">
                             <span class="food-name" title="${item.name}">${item.name}</span>
                             ${ingredientsElement}
+                            ${riceOptionsHtml}
                         </div>
                     </div>
                     <div class="card-bottom-content">
                         <div class="btn-wrapper">
-                            <button class="add-btn" id="btn-${item.id}" data-price="${item.price}" onclick="triggerAddToCart(event, this, '${item.name.replace(/'/g, "\\'")}')">
+                            <button class="add-btn" id="btn-${item.id}" data-price="${item.price}" data-size="" onclick="triggerAddToCart(event, this, '${item.name.replace(/'/g, "\\'")}')">
                                 اطلب
                             </button>
                         </div>
                         <div class="price-container-leftish">
                             <span class="food-price">
-                                <span class="price-num">${item.price}</span>
+                                <span class="price-num" id="price-num-${item.id}">${item.price}</span>
                                 <span class="price-txt">ج.م</span>
                             </span>
                         </div>
@@ -896,8 +949,14 @@
 
         function triggerAddToCart(e, btn, name) {
             const price = btn.getAttribute('data-price') || "0"; 
+            const size = btn.getAttribute('data-size');
+            let displayName = name;
+            if (size) {
+                displayName += ` (${size})`;
+            }
+
             const img = `${IMAGES_PATH}${name}.jpg`;
-            cart.push({name, price, img}); 
+            cart.push({ name: displayName, price, img }); 
             
             btn.classList.add('success-state'); 
             btn.innerText = "تم الطلب ✔️";
