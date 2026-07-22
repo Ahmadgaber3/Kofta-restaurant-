@@ -300,31 +300,31 @@
             display: block;
         }
 
-        /* خيارات الحجم الخاصة بالأرز البسمتي */
-        .rice-size-options {
+        /* أزرار اختيار الكمية الخاصة بأرز بسمتي */
+        .rice-size-btns {
             display: flex;
-            gap: 12px;
+            gap: 6px;
             margin-top: 6px;
-            align-items: center;
         }
 
-        .rice-size-options label {
-            font-size: 0.78rem;
-            font-weight: 800;
-            color: var(--main-text);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-            background: var(--input-bg);
-            padding: 3px 8px;
+        .rice-btn {
+            flex: 1;
+            padding: 5px 8px;
             border-radius: 8px;
-            border: 1px solid var(--border-color);
+            border: 1.5px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--main-text);
+            font-size: 0.75rem;
+            font-weight: 800;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
         }
 
-        .rice-size-options input[type="radio"] {
-            accent-color: var(--brand-red);
-            cursor: pointer;
+        .rice-btn.active {
+            background: var(--brand-red);
+            color: #ffffff;
+            border-color: var(--brand-red);
         }
 
         .card-bottom-content {
@@ -458,18 +458,6 @@
         .order-type-toggle { display: flex; gap: 10px; width: 100%; }
         .type-btn { flex: 1; padding: 9px; border-radius: 10px; border: 1.5px solid var(--border-color); background: var(--input-bg); color: var(--main-text); font-weight: 800; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; }
         .type-btn.active { background: var(--brand-red); color: #ffffff; border-color: var(--brand-red); }
-        
-        .delivery-search-container { position: relative; margin-bottom: 10px; }
-        .search-results-list { 
-            position: absolute; top: 100%; left: 0; right: 0; 
-            background: var(--card-inner-bg); border: 1px solid var(--border-color); 
-            border-radius: 10px; max-height: 160px; overflow-y: auto; 
-            z-index: 2500; box-shadow: 0 6px 20px rgba(0,0,0,0.2); 
-            display: none; 
-        }
-        .search-item { padding: 10px 12px; font-size: 0.8rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); color: var(--main-text); font-weight: 700; }
-        .search-item:hover { background: rgba(255, 0, 21, 0.1); color: var(--brand-red); }
-        .search-item-price { font-weight: 800; font-size: 0.78rem; color: var(--brand-red); }
 
         .submit-btn { background: var(--brand-red); color: #ffffff; border: none; padding: 12px; border-radius: 12px; width: 100%; font-weight: 800; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 12px rgba(255, 0, 21, 0.3); }
     </style>
@@ -529,7 +517,6 @@
     <footer class="restaurant-footer">
         <div class="footer-address-bar">
             <span class="footer-address-label">📍 العنوان:</span>
-            <!-- تم تعديل العنوان من السويس إلى الإسماعيلية -->
             <span class="footer-address-text">السابعة - أرض الجمعيات - مكان مطعم أبو عماد - الإسماعيلية</span>
         </div>
 
@@ -554,17 +541,8 @@
             
             <div style="margin: 12px 0; padding: 12px 14px; background: var(--input-bg); border-radius: 12px; display: flex; flex-direction: column; gap: 6px; font-size: 0.82rem; border: 1px solid var(--border-color);">
                 <div style="display: flex; justify-content: space-between; color: var(--main-text);">
-                    <span>المجموع الفرعي:</span>
-                    <b id="subTotalAmount" style="color: var(--main-text);">0 جنيه</b>
-                </div>
-                <div id="deliveryFeeRow" style="display: flex; justify-content: space-between; color: var(--main-text);">
-                    <span>خدمة التوصيل:</span>
-                    <b id="deliveryFeeAmount" style="color: var(--main-text);">0 جنيه</b>
-                </div>
-                <hr style="border: none; border-top: 1px dashed var(--border-color); margin: 4px 0;">
-                <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 0.98rem; color: var(--brand-red);">
-                    <span>الإجمالي النهائي:</span>
-                    <b id="totalAmount">0 جنيه</b>
+                    <span>المجموع الكلي:</span>
+                    <b id="totalAmount" style="color: var(--brand-red); font-size: 1.05rem;">0 جنيه</b>
                 </div>
             </div>
 
@@ -576,15 +554,10 @@
                         <button type="button" class="type-btn" id="btnTakeaway" onclick="setOrderType('تيك أواي')">🛍️ تيك أواي</button>
                     </div>
                 </div>
-                
-                <div class="delivery-search-container" id="deliverySelectArea">
-                    <input type="text" id="deliverySearch" placeholder="🔍 ابحث عن منطقة التوصيل (مثال: أرض الجمعيات)" onfocus="showLocationsDropdown()" oninput="filterLocations()">
-                    <div class="search-results-list" id="deliveryDropdownList"></div>
-                </div>
 
                 <input type="text" id="uName" placeholder="الاسم بالكامل">
                 <input type="tel" id="uPhone" placeholder="رقم الموبايل">
-                <input type="text" id="uAddr" placeholder="العنوان بالتفصيل (الشارع / الدور / الشقة)">
+                <input type="text" id="uAddr" placeholder="العنوان بالتفصيل (المنطقة / الشارع / الدور)">
             </div>
             <button class="submit-btn" onclick="sendToWA()">تأكيد الطلب عبر واتساب</button>
         </div>
@@ -597,18 +570,6 @@
         let currentTotal = 0; 
         let selectedOrderType = 'دليفري'; 
         let deferredPrompt = null;
-
-        const deliveryLocations = [
-            { name: "أرض الجمعيات", price: 15 }, { name: "السابعة", price: 15 },
-            { name: "فيصل", price: 20 }, { name: "الأمل", price: 20 }, { name: "الصباح", price: 25 },
-            { name: "السلام 1", price: 30 }, { name: "السلام 2", price: 35 }, { name: "الحرفيين", price: 20 },
-            { name: "الملاحة", price: 30 }, { name: "التوفيق", price: 30 }, { name: "السويس البلد", price: 40 },
-            { name: "الأربعين", price: 35 }, { name: "المثلث", price: 30 }, { name: "الكوثر", price: 45 },
-            { name: "حوض الدرس", price: 45 }, { name: "بورتوفيق", price: 50 }, { name: "شندورة", price: 80 },
-            { name: "جنيفة", price: 90 }
-        ];
-
-        let selectedLocation = null; 
 
         function handleThemeToggle() {
             const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
@@ -637,7 +598,6 @@
             }
 
             loadMenu();
-            renderLocationsList();
 
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('sw.js')
@@ -677,75 +637,20 @@
                 if (bannerPopup) bannerPopup.classList.remove('show-banner');
                 deferredPrompt = null;
             });
-
-            document.addEventListener('click', function(e) {
-                const container = document.querySelector('.delivery-search-container');
-                if (container && !container.contains(e.target)) {
-                    hideLocationsDropdown();
-                }
-            });
         });
-
-        function renderLocationsList() {
-            const list = document.getElementById('deliveryDropdownList');
-            list.innerHTML = deliveryLocations.map(loc => `
-                <div class="search-item" onclick="selectLocation('${loc.name}', ${loc.price})">
-                    <span>📍 ${loc.name}</span>
-                    <span class="search-item-price">${loc.price} جنيه</span>
-                </div>
-            `).join('');
-        }
-
-        function filterLocations() {
-            const query = document.getElementById('deliverySearch').value.trim().toLowerCase();
-            const list = document.getElementById('deliveryDropdownList');
-            const items = list.getElementsByClassName('search-item');
-            let visibleCount = 0;
-            for (let i = 0; i < items.length; i++) {
-                const text = items[i].textContent || items[i].innerText;
-                if (text.toLowerCase().includes(query)) {
-                    items[i].style.display = "flex";
-                    visibleCount++;
-                } else {
-                    items[i].style.display = "none";
-                }
-            }
-            list.style.display = visibleCount > 0 ? "block" : "none";
-        }
-
-        function showLocationsDropdown() {
-            document.getElementById('deliveryDropdownList').style.display = 'block';
-            filterLocations();
-        }
-
-        function hideLocationsDropdown() {
-            document.getElementById('deliveryDropdownList').style.display = 'none';
-        }
-
-        function selectLocation(name, price) {
-            selectedLocation = { name, price };
-            document.getElementById('deliverySearch').value = `📍 ${name} (${price} جنيه)`;
-            hideLocationsDropdown();
-            updateCart(); 
-        }
 
         function setOrderType(type) {
             selectedOrderType = type;
             const btnDel = document.getElementById('btnDelivery');
             const btnTak = document.getElementById('btnTakeaway');
-            const deliveryArea = document.getElementById('deliverySelectArea');
             const addrField = document.getElementById('uAddr');
 
             if (type === 'دليفري') {
                 btnDel.classList.add('active'); btnTak.classList.remove('active');
-                if (deliveryArea) deliveryArea.style.display = 'block';
                 if (addrField) addrField.style.display = 'block';
             } else {
                 btnTak.classList.add('active'); btnDel.classList.remove('active');
-                if (deliveryArea) deliveryArea.style.display = 'none';
                 if (addrField) addrField.style.display = 'none';
-                selectedLocation = null; 
-                document.getElementById('deliverySearch').value = '';
             }
             updateCart();
         }
@@ -878,14 +783,20 @@
                    normalized.includes("مشوي");
         }
 
-        // دالة تغيير حجم الأرز البسمتي وتحديث السعر على الكارت
-        function updateRicePrice(itemId, price, sizeText) {
+        // دالة تغيير حجم وسعر الأرز البسمتي عبر الأزرار
+        function selectRiceOption(itemId, price, sizeText, btnEl) {
             const priceEl = document.getElementById(`price-num-${itemId}`);
-            const btnEl = document.getElementById(`btn-${itemId}`);
+            const actionBtn = document.getElementById(`btn-${itemId}`);
+            
+            // تغيير حالة الأزرار النشطة
+            const parent = btnEl.parentElement;
+            parent.querySelectorAll('.rice-btn').forEach(b => b.classList.remove('active'));
+            btnEl.classList.add('active');
+
             if (priceEl) priceEl.innerText = price;
-            if (btnEl) {
-                btnEl.setAttribute('data-price', price);
-                btnEl.setAttribute('data-size', sizeText);
+            if (actionBtn) {
+                actionBtn.setAttribute('data-price', price);
+                actionBtn.setAttribute('data-size', sizeText);
             }
         }
 
@@ -901,20 +812,14 @@
                     ingredientsElement = `<span class="food-ingredients">${item.desc.trim()}</span>`;
                 }
 
-                // فحص ما إذا كان الصنف هو الأرز البسمتي لإضافة خياري (طبق / كيلو)
+                // إضافة أزرار (طبق رز / كيلو رز) للأرز البسمتي
                 const isRice = item.name.includes("أرز بسمتي") || item.name.includes("رز بسمتي");
                 let riceOptionsHtml = "";
                 if (isRice) {
                     riceOptionsHtml = `
-                    <div class="rice-size-options">
-                        <label>
-                            <input type="radio" name="rice_size_${item.id}" value="40" checked onclick="updateRicePrice(${item.id}, 40, 'طبق')">
-                            طبق (40 ج.م)
-                        </label>
-                        <label>
-                            <input type="radio" name="rice_size_${item.id}" value="110" onclick="updateRicePrice(${item.id}, 110, 'كيلو')">
-                            كيلو (110 ج.م)
-                        </label>
+                    <div class="rice-size-btns">
+                        <button type="button" class="rice-btn active" onclick="selectRiceOption(${item.id}, 40, 'طبق', this)">طبق رز</button>
+                        <button type="button" class="rice-btn" onclick="selectRiceOption(${item.id}, 110, 'كيلو', this)">كيلو رز</button>
                     </div>`;
                 }
 
@@ -932,7 +837,7 @@
                     </div>
                     <div class="card-bottom-content">
                         <div class="btn-wrapper">
-                            <button class="add-btn" id="btn-${item.id}" data-price="${item.price}" data-size="" onclick="triggerAddToCart(event, this, '${item.name.replace(/'/g, "\\'")}')">
+                            <button class="add-btn" id="btn-${item.id}" data-price="${item.price}" data-size="${isRice ? 'طبق' : ''}" onclick="triggerAddToCart(event, this, '${item.name.replace(/'/g, "\\'")}')">
                                 اطلب
                             </button>
                         </div>
@@ -984,18 +889,7 @@
                 return `<div class="cart-item-card"><img src="${item.img}" class="cart-item-img" onerror="this.onerror=null; this.src='${IMAGES_PATH}default.jpg';"><div class="cart-item-info"><span class="cart-item-name">${item.name}</span><span class="cart-item-price">${item.price} ج.م</span></div><span class="remove-btn" onclick="removeFromCart(${idx})">حذف</span></div>`;
             }).join('');
             
-            let deliveryFee = 0;
-            const deliveryRow = document.getElementById('deliveryFeeRow');
-            if (selectedOrderType === 'دليفري' && selectedLocation) {
-                deliveryFee = selectedLocation.price;
-                deliveryRow.style.display = 'flex';
-                document.getElementById('deliveryFeeAmount').innerText = `${deliveryFee} ج.م`;
-            } else {
-                deliveryRow.style.display = 'none';
-            }
-
-            currentTotal = subtotal + deliveryFee;
-            document.getElementById('subTotalAmount').innerText = `${subtotal} ج.م`;
+            currentTotal = subtotal;
             document.getElementById('totalAmount').innerText = `${currentTotal} ج.م`;
         }
 
@@ -1006,19 +900,15 @@
         function sendToWA() {
             const n = document.getElementById('uName').value.trim(), p = document.getElementById('uPhone').value.trim(), a = document.getElementById('uAddr').value.trim();
             if(!n || !p || cart.length === 0) { alert("برجاء إدخال اسمك ورقم تليفونك أولاً لتأكيد طلبك."); return; }
-            if (selectedOrderType === "دليفري" && !selectedLocation) { alert("برجاء اختيار منطقة التوصيل من قائمة البحث أولاً."); return; }
             if (selectedOrderType === "دليفري" && !a) { alert("برجاء كتابة عنوانك بالتفصيل."); return; }
 
             let msg = `*طلب جديد - مستر كوفتا MR.KOFTA*\n──────────────\n👤 *الاسم:* ${n}\n📱 *الموبايل:* ${p}\n🛵 *نوع الطلب:* ${selectedOrderType}\n`;
-            if (selectedOrderType === "دليفري") msg += `📍 *المنطقة:* ${selectedLocation.name}\n📍 *العنوان بالتفصيل:* ${a}\n`;
+            if (selectedOrderType === "دليفري") msg += `📍 *العنوان بالتفصيل:* ${a}\n`;
             msg += `──────────────\n📦 *الطلبات:*\n`;
             const summary = {}; 
             cart.forEach(item => { const key = `${item.name}`; summary[key] = (summary[key] || 0) + 1; });
             for (const [itemKey, qty] of Object.entries(summary)) msg += `• ${itemKey} × ${qty}\n`;
             msg += `──────────────\n`;
-            const itemsSubtotal = currentTotal - (selectedLocation ? selectedLocation.price : 0);
-            msg += `💵 *المجموع الفرعي:* ${itemsSubtotal} جنيه\n`;
-            if (selectedOrderType === "دليفري") msg += `🛵 *خدمة التوصيل:* ${selectedLocation.price} جنيه\n`;
             msg += `💰 *الإجمالي النهائي:* ${currentTotal} جنيه\n_شكراً لاختياركم مستر كوفتا_ ✨`;
             
             window.open(`https://wa.me/201210780759?text=${encodeURIComponent(msg)}`, '_blank');
