@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="light">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مستر كوفتا | MR.KOFTA - المنيو الرسمي</title>
     
-    <meta name="theme-color" content="#111111">
+    <meta name="theme-color" content="#141414">
     
     <!-- ملف الـ manifest لتعريف التطبيق -->
     <link rel="manifest" href="manifest.json">
@@ -15,36 +15,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        /* ================= ألوان الهيدر والإنترو بدقة لون اللوجو بالضبط ================= */
-        :root, [data-theme="light"] {
-            --bg: #f8fafc; 
-            --card-bg: #ffffff; 
-            --main-text: #0f172a; 
-            --desc-text: #64748b; 
+        /* ================= الثيم الأسود المطابق للوجو تماماً ================= */
+        :root, [data-theme="dark"], [data-theme="light"] {
+            --bg: #141414; /* درجة أسود خلفية اللوجو بالضبط */
+            --card-bg: linear-gradient(145deg, #1f1f1f 0%, #171717 100%); /* كروت متدرجة لتبان بارزة */
+            --main-text: #ffffff; 
+            --desc-text: #a1a1aa; 
             --brand-red: #ff0015; 
-            --button-gray: #f1f5f9; 
+            --button-black: #1f1f1f; 
             --white: #ffffff; 
-            --header-bg: #111111; /* نفس درجة أسود خلفية اللوجو بالضبط */
-            --header-text: #ffffff;
-            --card-shadow: 0 4px 14px rgba(15, 23, 42, 0.06); 
-            --border-color: #e2e8f0;
-            --input-bg: #f8fafc;
-        }
-
-        /* ================= الوضع الليلي (الداكن) ================= */
-        [data-theme="dark"] {
-            --bg: #090d16; 
-            --card-bg: #131c2e; 
-            --main-text: #ffffff;
-            --desc-text: #94a3b8;
-            --brand-red: #ff1a2d; 
-            --button-gray: #1e293b; 
-            --white: #131c2e; 
-            --header-bg: #111111; /* محتفظ بأسود اللوجو الفخم */
-            --header-text: #ffffff;
-            --card-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
-            --border-color: #1e293b;
-            --input-bg: #090d16;
+            --header-bg: #141414; /* نفس درجة أسود خلفية اللوجو */
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05); 
+            --border-color: #2a2a2a; 
+            --input-bg: #1a1a1a;
         }
 
         * { 
@@ -63,10 +46,10 @@
             overflow-x: hidden; 
         }
 
-        /* ================= شاشة التحميل (الدخلة) ================= */
+        /* ================= شاشة التحميل (الدخلة) بنفس درجة اللوجو ================= */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #111111; /* أسود مطابق تماماً لخلفية اللوجو */
+            background: #141414; /* مطابقة تماماً لخلفية اللوجو */
             z-index: 9999;
             display: flex; justify-content: center; align-items: center;
             transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
@@ -92,15 +75,15 @@
             100% { transform: scale(1); opacity: 1; }
         }
         
-        .loader-slogan { font-size: 1.05rem; font-weight: 800; line-height: 1.4; color: var(--brand-red); text-shadow: 0 2px 4px rgba(0,0,0,0.6); animation: fadeInUp 0.8s ease-out forwards 0.3s; opacity: 0; margin-top: 10px; }
+        .loader-slogan { font-size: 1.05rem; font-weight: 800; line-height: 1.4; color: var(--brand-red); text-shadow: 0 2px 4px rgba(0,0,0,0.8); animation: fadeInUp 0.8s ease-out forwards 0.3s; opacity: 0; margin-top: 10px; }
         @keyframes fadeInUp { to { transform: translateY(0); opacity: 1; } }
         .loader-counter { font-size: 1.1rem; font-weight: 800; color: #ffffff; margin-top: 15px; font-variant-numeric: tabular-nums; }
-        .loading-bar { width: 130px; height: 4px; background: rgba(255, 255, 255, 0.15); margin: 10px auto 0 auto; border-radius: 10px; overflow: hidden; }
+        .loading-bar { width: 130px; height: 4px; background: rgba(255, 255, 255, 0.1); margin: 10px auto 0 auto; border-radius: 10px; overflow: hidden; }
         .loading-bar span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--brand-red) 0%, #ff4d5e 100%); box-shadow: 0 0 8px var(--brand-red); border-radius: 10px; }
         .splash-hidden { transform: translateY(-100%); pointer-events: none; }
 
-        /* ================= الهيدر الداخلي (الجزء العلوي) ================= */
-        .sticky-wrapper { position: sticky; top: 0; z-index: 1000; background: var(--header-bg); box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
+        /* ================= الهيدر الداخلي ================= */
+        .sticky-wrapper { position: sticky; top: 0; z-index: 1000; background: var(--header-bg); border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
         header { display: flex; flex-direction: column; align-items: center; padding: 14px 0; position: relative; }
         .header-top { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; }
         
@@ -117,9 +100,8 @@
         .header-left-actions { position: absolute; left: 16px; top: 54px; display: flex; align-items: center; }
         .header-right-actions { position: absolute; right: 16px; top: 54px; display: flex; align-items: center; }
 
-        /* أزرار الهيدر الشفافة الفخمة فوق الخلفية السوداء */
         .cart-trigger, .theme-toggle-btn { 
-            background: rgba(255, 255, 255, 0.1); 
+            background: #222222; 
             color: #ffffff; 
             width: 42px; 
             height: 42px; 
@@ -129,15 +111,14 @@
             justify-content: center; 
             cursor: pointer; 
             font-size: 1.2rem; 
-            border: 1px solid rgba(255, 255, 255, 0.15); 
+            border: 1px solid var(--border-color); 
             position: relative; 
             outline: none;
             user-select: none;
-            backdrop-filter: blur(5px);
         }
         .cart-trigger:active, .theme-toggle-btn:active { transform: scale(0.92); }
 
-        .badge { position: absolute; top: -3px; right: -3px; background: var(--brand-red); color: #ffffff; font-size: 8px; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #111111; transform: scale(0); }
+        .badge { position: absolute; top: -3px; right: -3px; background: var(--brand-red); color: #ffffff; font-size: 8px; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #141414; transform: scale(0); }
         .badge.show { transform: scale(1); }
 
         /* ================= ستايل بانر التثبيت المنبثق ================= */
@@ -149,13 +130,13 @@
             width: 92%;
             max-width: 440px;
             background: var(--card-bg);
-            border: 2px solid var(--brand-red);
+            border: 1.5px solid var(--brand-red);
             border-radius: 20px;
             padding: 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
             z-index: 9998;
             opacity: 0;
             pointer-events: none;
@@ -172,17 +153,17 @@
         .banner-desc { font-size: 0.72rem; font-weight: 700; color: var(--brand-red); margin-top: 2px; }
         
         .banner-actions { display: flex; align-items: center; gap: 8px; }
-        .banner-btn-install { background: var(--brand-red); color: #ffffff; border: none; padding: 8px 16px; border-radius: 10px; font-size: 0.8rem; font-weight: 800; cursor: pointer; white-space: nowrap; box-shadow: 0 4px 10px rgba(255, 0, 21, 0.2); }
+        .banner-btn-install { background: var(--brand-red); color: #ffffff; border: none; padding: 8px 16px; border-radius: 10px; font-size: 0.8rem; font-weight: 800; cursor: pointer; white-space: nowrap; box-shadow: 0 4px 10px rgba(255, 0, 21, 0.3); }
         .banner-btn-close { background: transparent; color: var(--desc-text); border: none; font-size: 1.1rem; cursor: pointer; padding: 4px; font-weight: bold; }
 
         /* شريط الأقسام */
-        .category-nav { display: flex; overflow-x: auto; white-space: nowrap; padding: 14px 16px; gap: 16px; scrollbar-width: none; background: var(--card-bg); border-bottom: 1px solid var(--border-color); }
+        .category-nav { display: flex; overflow-x: auto; white-space: nowrap; padding: 14px 16px; gap: 16px; scrollbar-width: none; background: #141414; border-bottom: 1px solid var(--border-color); }
         .category-nav::-webkit-scrollbar { display: none; }
         .cat-item { display: flex; flex-direction: column; align-items: center; min-width: 76px; cursor: pointer; }
-        .cat-img-box { width: 68px; height: 68px; border-radius: 20px; background: var(--card-bg); overflow: hidden; border: 2px solid transparent; box-shadow: 0 4px 8px rgba(0,0,0,0.03); }
+        .cat-img-box { width: 68px; height: 68px; border-radius: 20px; background: #222222; overflow: hidden; border: 1.5px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
         .cat-img-box img { width: 100%; height: 100%; object-fit: cover; }
         
-        .cat-item.active .cat-img-box { border-color: var(--brand-red); border-width: 2.5px; transform: scale(1.03); }
+        .cat-item.active .cat-img-box { border-color: var(--brand-red); border-width: 2.5px; transform: scale(1.03); box-shadow: 0 0 12px rgba(255, 0, 21, 0.4); }
         .cat-item span { font-size: 0.76rem; font-weight: 800; color: var(--desc-text); margin-top: 6px; } 
         .cat-item.active span { color: var(--main-text); font-weight: 900; }
 
@@ -190,7 +171,7 @@
         .menu-list { 
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             padding: 20px 16px 14px 16px; 
             max-width: 600px; 
             margin: auto; 
@@ -202,7 +183,7 @@
             border-radius: 18px; 
             display: flex; 
             flex-direction: column; 
-            padding: 10px 12px; 
+            padding: 12px; 
             box-shadow: var(--card-shadow);
             border: 1px solid var(--border-color);
             gap: 6px; 
@@ -213,7 +194,7 @@
             display: flex;
             flex-direction: row;
             align-items: flex-start;
-            gap: 10px;
+            gap: 12px;
             width: 100%;
         }
 
@@ -223,7 +204,8 @@
             border-radius: 14px;
             overflow: hidden;
             flex-shrink: 0;
-            background: var(--button-gray);
+            background: #222222;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .food-card .item-img { 
@@ -268,7 +250,8 @@
             align-items: center;
             width: 100%;
             margin-top: 6px;
-            padding-top: 4px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         .btn-wrapper {
@@ -290,7 +273,7 @@
             align-items: center; 
             justify-content: center; 
             font-weight: 800; 
-            box-shadow: 0 2px 8px rgba(255, 0, 21, 0.2);
+            box-shadow: 0 3px 10px rgba(255, 0, 21, 0.3);
             white-space: nowrap;
             transition: all 0.25s ease;
         }
@@ -298,10 +281,10 @@
         .add-btn:active { transform: scale(0.95); }
         
         .add-btn.success-state { 
-            background: rgba(46, 204, 113, 0.18) !important; 
-            color: #27ae60 !important;
+            background: rgba(46, 204, 113, 0.15) !important; 
+            color: #2ecc71 !important;
             border: 1.5px solid #2ecc71 !important;
-            box-shadow: 0 2px 8px rgba(46, 204, 113, 0.15) !important; 
+            box-shadow: 0 2px 10px rgba(46, 204, 113, 0.2) !important; 
             pointer-events: none; 
             font-weight: 800;
         }
@@ -327,7 +310,7 @@
 
         /* ================= الفوتر ================= */
 
-        .restaurant-footer { padding: 25px 15px; text-align: center; background: var(--card-bg); border-top: 1px solid var(--border-color); margin-top: 25px; padding-bottom: 35px; }
+        .restaurant-footer { padding: 25px 15px; text-align: center; background: #141414; border-top: 1px solid var(--border-color); margin-top: 25px; padding-bottom: 35px; }
         
         .footer-address-bar {
             font-size: 0.78rem; 
@@ -338,8 +321,8 @@
             justify-content: center;
             gap: 4px;
             margin-bottom: 15px;
-            padding: 8px;
-            background: var(--button-gray);
+            padding: 10px;
+            background: #1f1f1f;
             border-radius: 12px;
             border: 1px solid var(--border-color);
         }
@@ -351,10 +334,10 @@
         .dev-credit a { color: var(--brand-red); text-decoration: none; display: block; margin-top: 3px; }
 
         /* السلة والـ Modals */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); z-index: 2000; display: none; justify-content: center; align-items: flex-end; backdrop-filter: blur(4px); }
-        .modal-content { background: var(--card-bg); width: 100%; max-width: 480px; padding: 16px 20px; border-radius: 22px 22px 0 0; max-height: 82vh; overflow-y: auto; color: var(--main-text); box-shadow: 0 -5px 25px rgba(0,0,0,0.25); }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: none; justify-content: center; align-items: flex-end; backdrop-filter: blur(6px); }
+        .modal-content { background: #171717; border: 1px solid var(--border-color); width: 100%; max-width: 480px; padding: 16px 20px; border-radius: 22px 22px 0 0; max-height: 82vh; overflow-y: auto; color: var(--main-text); box-shadow: 0 -5px 30px rgba(0,0,0,0.8); }
 
-        .cart-item-card { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: var(--button-gray); border-radius: 12px; margin-bottom: 8px; }
+        .cart-item-card { display: flex; align-items: center; gap: 10px; padding: 10px; background: #222222; border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 8px; }
         .cart-item-img { width: 42px; height: 42px; border-radius: 8px; object-fit: cover; }
         .cart-item-info { flex: 1; }
         .cart-item-name { font-weight: 700; font-size: 0.8rem; } 
@@ -375,16 +358,16 @@
         .delivery-search-container { position: relative; margin-bottom: 10px; }
         .search-results-list { 
             position: absolute; top: 100%; left: 0; right: 0; 
-            background: var(--card-bg); border: 1px solid var(--border-color); 
+            background: #1a1a1a; border: 1px solid var(--border-color); 
             border-radius: 10px; max-height: 160px; overflow-y: auto; 
-            z-index: 2500; box-shadow: 0 4px 15px rgba(0,0,0,0.15); 
+            z-index: 2500; box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
             display: none; 
         }
         .search-item { padding: 10px 12px; font-size: 0.78rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); color: var(--main-text); }
-        .search-item:hover { background: rgba(255, 0, 21, 0.05); color: var(--brand-red); }
+        .search-item:hover { background: rgba(255, 0, 21, 0.1); color: var(--brand-red); }
         .search-item-price { font-weight: 800; font-size: 0.75rem; }
 
-        .submit-btn { background: var(--brand-red); color: #ffffff; border: none; padding: 12px; border-radius: 12px; width: 100%; font-weight: 800; font-size: 0.9rem; cursor: pointer; }
+        .submit-btn { background: var(--brand-red); color: #ffffff; border: none; padding: 12px; border-radius: 12px; width: 100%; font-weight: 800; font-size: 0.9rem; cursor: pointer; box-shadow: 0 4px 12px rgba(255, 0, 21, 0.3); }
     </style>
 </head>
 <body>
@@ -416,7 +399,6 @@
 
     <div class="sticky-wrapper">
         <header>
-            <!-- زر تبديل الوضع الليلي والنهاري -->
             <div class="header-right-actions">
                 <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" id="themeToggleBtn" title="تغيير المظهر">
                     <span id="themeIcon">🌙</span>
@@ -465,7 +447,7 @@
             <h3 style="margin-bottom: 12px; font-size: 1rem; font-weight: 800;">طلباتك</h3>
             <div id="cartItemsList"></div>
             
-            <div style="margin: 12px 0; padding: 10px 14px; background: rgba(255, 0, 21, 0.05); border-radius: 12px; display: flex; flex-direction: column; gap: 6px; font-size: 0.8rem;">
+            <div style="margin: 12px 0; padding: 10px 14px; background: rgba(255, 0, 21, 0.08); border-radius: 12px; display: flex; flex-direction: column; gap: 6px; font-size: 0.8rem; border: 1px solid rgba(255, 0, 21, 0.15);">
                 <div style="display: flex; justify-content: space-between;">
                     <span>المجموع الفرعي:</span>
                     <b id="subTotalAmount">0 جنيه</b>
@@ -523,11 +505,9 @@
 
         let selectedLocation = null; 
 
-        // ================= برمجة زر الليل والنهار =================
         function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme_preference', newTheme);
             updateThemeUI(newTheme);
@@ -541,7 +521,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme_preference') || 'light';
+            const savedTheme = localStorage.getItem('theme_preference') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeUI(savedTheme);
 
@@ -594,8 +574,6 @@
                 }
             });
         });
-
-        // ================= Shipping & Search System =================
 
         function renderLocationsList() {
             const list = document.getElementById('deliveryDropdownList');
