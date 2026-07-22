@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مستر كوفتا | MR.KOFTA - المنيو الرسمي</title>
     
-    <meta name="theme-color" content="#141414">
+    <meta name="theme-color" content="#ff0015">
     
     <!-- ملف الـ manifest لتعريف التطبيق -->
     <link rel="manifest" href="manifest.json">
@@ -118,13 +118,12 @@
             border-radius: 10px;
         }
         
-        .header-left-actions { position: absolute; left: 16px; top: 54px; display: flex; align-items: center; }
+        .header-left-actions { position: absolute; left: 16px; top: 54px; display: flex; align-items: center; gap: 8px; }
         .header-right-actions { position: absolute; right: 16px; top: 54px; display: flex; align-items: center; z-index: 1010; }
 
-        .cart-trigger, .theme-toggle-btn { 
+        .cart-trigger, .theme-toggle-btn, .header-install-btn { 
             background: var(--input-bg); 
             color: var(--main-text); 
-            width: 42px; 
             height: 42px; 
             border-radius: 14px; 
             display: flex; 
@@ -137,17 +136,29 @@
             outline: none;
             user-select: none;
         }
-        
-        .theme-toggle-btn * {
-            pointer-events: none;
-        }
 
-        .cart-trigger:active, .theme-toggle-btn:active { transform: scale(0.92); }
+        .cart-trigger, .theme-toggle-btn { width: 42px; }
+
+        .header-install-btn {
+            padding: 0 12px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            background: var(--brand-red);
+            color: #ffffff;
+            border: none;
+            gap: 4px;
+            box-shadow: 0 3px 8px rgba(255, 0, 21, 0.25);
+            display: none; /* يظهر تلقائياً عندما يدعم المتصفح التثبيت */
+        }
+        
+        .theme-toggle-btn * { pointer-events: none; }
+
+        .cart-trigger:active, .theme-toggle-btn:active, .header-install-btn:active { transform: scale(0.92); }
 
         .badge { position: absolute; top: -3px; right: -3px; background: var(--brand-red); color: #ffffff; font-size: 8px; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #ffffff; transform: scale(0); }
         .badge.show { transform: scale(1); }
 
-        /* ================= ستايل بانر التثبيت ================= */
+        /* ================= ستايل بانر التثبيت المنبثق ================= */
         .install-banner-popup {
             position: fixed;
             bottom: 20px;
@@ -162,7 +173,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             z-index: 9998;
             opacity: 0;
             pointer-events: none;
@@ -250,7 +261,7 @@
             min-width: 0;
         }
 
-        /* 2. الكارت الكبير (ضبط أبعاد الصورة بنفس أبعاد الصورة المرفقة 2.7:1) */
+        /* 2. الكارت الكبير (ضبط أبعاد الصورة بنسبة 2.7:1) */
         .food-card.large-food-card {
             padding: 8px 10px 8px 10px; 
             gap: 4px;
@@ -468,11 +479,11 @@
             <div class="banner-logo-mini"></div>
             <div>
                 <div class="banner-title">تطبيق مستر كوفتا الرسمي</div>
-                <div class="banner-desc">#غيرنا_مفهوم_الساندوتش</div>
+                <div class="banner-desc">ثبّت التطبيق لسهولة السريعة للطلبات</div>
             </div>
         </div>
         <div class="banner-actions">
-            <button class="banner-btn-install" id="actionInstallBtn">تثبيت</button>
+            <button class="banner-btn-install" id="actionInstallBtn">تثبيت التطبيق 📲</button>
             <button class="banner-btn-close" id="actionCloseBtn">✕</button>
         </div>
     </div>
@@ -490,6 +501,10 @@
             </div>
 
             <div class="header-left-actions">
+                <!-- زر التثبيت العلوي -->
+                <button class="header-install-btn" id="headerInstallBtn">
+                    <span>📲</span> تثبيت
+                </button>
                 <button class="cart-trigger" onclick="toggleCart(true)" id="cartBtn">
                     <span class="badge" id="cartBadge">0</span>
                     <span>🛒</span>
@@ -614,29 +629,35 @@
             loadMenu();
             renderLocationsList();
 
+            // تسجيل الـ Service Worker لتجهيز التطبيق للعمل أونلاين وأوفلاين
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('Service Worker Registered!', reg))
-                .catch(err => console.log('Service Worker Failed:', err));
+                .then(reg => console.log('Service Worker Registered Successfully!'))
+                .catch(err => console.log('Service Worker Registration Failed:', err));
             }
 
+            // استقبال حدث إمكانية تثبيت التطبيق
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
                 deferredPrompt = e;
+                
+                // إظهار زر التثبيت في الهيدر العلوي والبانر السفلي
                 const bannerPopup = document.getElementById('automaticInstallBanner');
+                const headerBtn = document.getElementById('headerInstallBtn');
                 if (bannerPopup) bannerPopup.classList.add('show-banner');
+                if (headerBtn) headerBtn.style.display = 'flex';
             });
 
+            // تنفيذ التثبيت عند الضغط على الزر المنبثق السفلي
             const actionInstallBtn = document.getElementById('actionInstallBtn');
             if (actionInstallBtn) {
-                actionInstallBtn.addEventListener('click', async () => {
-                    if (!deferredPrompt) return;
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    deferredPrompt = null;
-                    const bannerPopup = document.getElementById('automaticInstallBanner');
-                    if (bannerPopup) bannerPopup.classList.remove('show-banner');
-                });
+                actionInstallBtn.addEventListener('click', triggerAppInstallation);
+            }
+
+            // تنفيذ التثبيت عند الضغط على زر التثبيت العلوي
+            const headerInstallBtn = document.getElementById('headerInstallBtn');
+            if (headerInstallBtn) {
+                headerInstallBtn.addEventListener('click', triggerAppInstallation);
             }
 
             const actionCloseBtn = document.getElementById('actionCloseBtn');
@@ -649,7 +670,9 @@
 
             window.addEventListener('appinstalled', () => {
                 const bannerPopup = document.getElementById('automaticInstallBanner');
+                const headerBtn = document.getElementById('headerInstallBtn');
                 if (bannerPopup) bannerPopup.classList.remove('show-banner');
+                if (headerBtn) headerBtn.style.display = 'none';
                 deferredPrompt = null;
             });
 
@@ -660,6 +683,17 @@
                 }
             });
         });
+
+        async function triggerAppInstallation() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            deferredPrompt = null;
+            const bannerPopup = document.getElementById('automaticInstallBanner');
+            const headerBtn = document.getElementById('headerInstallBtn');
+            if (bannerPopup) bannerPopup.classList.remove('show-banner');
+            if (headerBtn) headerBtn.style.display = 'none';
+        }
 
         function renderLocationsList() {
             const list = document.getElementById('deliveryDropdownList');
