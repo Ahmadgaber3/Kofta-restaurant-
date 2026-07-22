@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مستر كوفتا | MR.KOFTA - المنيو الرسمي</title>
     
-    <meta name="theme-color" content="#ff0015">
+    <meta name="theme-color" content="#111111">
     
     <!-- ملف الـ manifest لتعريف التطبيق -->
     <link rel="manifest" href="manifest.json">
@@ -15,23 +15,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        /* الألوان الرسمية المحدثة باللون الأحمر والابيض بناء على اللوجو */
-        :root {
+        /* ================= ألوان الهيدر والإنترو بدقة لون اللوجو بالضبط ================= */
+        :root, [data-theme="light"] {
             --bg: #f8fafc; 
             --card-bg: #ffffff; 
             --main-text: #0f172a; 
             --desc-text: #64748b; 
-            --brand-red: #ff0015; /* الأحمر الخاص بـ مستر كوفتا */
+            --brand-red: #ff0015; 
             --button-gray: #f1f5f9; 
             --white: #ffffff; 
-            --glass: rgba(255, 255, 255, 0.95);
-            --header-bg: #ffffff;
+            --header-bg: #111111; /* نفس درجة أسود خلفية اللوجو بالضبط */
+            --header-text: #ffffff;
             --card-shadow: 0 4px 14px rgba(15, 23, 42, 0.06); 
             --border-color: #e2e8f0;
             --input-bg: #f8fafc;
         }
 
-        /* الوضع الليلي المطور والمتناسق مع الأحمر */
+        /* ================= الوضع الليلي (الداكن) ================= */
         [data-theme="dark"] {
             --bg: #090d16; 
             --card-bg: #131c2e; 
@@ -40,9 +40,9 @@
             --brand-red: #ff1a2d; 
             --button-gray: #1e293b; 
             --white: #131c2e; 
-            --glass: rgba(19, 28, 46, 0.95);
-            --header-bg: #131c2e;
-            --card-shadow: 0 6px 18px rgba(0,0,0,0.4);
+            --header-bg: #111111; /* محتفظ بأسود اللوجو الفخم */
+            --header-text: #ffffff;
+            --card-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
             --border-color: #1e293b;
             --input-bg: #090d16;
         }
@@ -53,7 +53,7 @@
             box-sizing: border-box; 
             font-family: 'Cairo', sans-serif; 
             -webkit-tap-highlight-color: transparent; 
-            transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease; 
+            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease; 
         }
         
         body { 
@@ -63,10 +63,10 @@
             overflow-x: hidden; 
         }
 
-        /* ================= شاشة التحميل ================= */
+        /* ================= شاشة التحميل (الدخلة) ================= */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000000; 
+            background: #111111; /* أسود مطابق تماماً لخلفية اللوجو */
             z-index: 9999;
             display: flex; justify-content: center; align-items: center;
             transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
@@ -85,7 +85,6 @@
             border-radius: 12px; 
             animation: bounceInEntry 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             transform: scale(0);
-            box-shadow: 0 8px 24px rgba(255, 0, 21, 0.25);
         }
         
         @keyframes bounceInEntry {
@@ -93,16 +92,15 @@
             100% { transform: scale(1); opacity: 1; }
         }
         
-        .loader-text { font-weight: 800; color: #ffffff; font-size: 1.4rem; margin-bottom: 6px; text-shadow: 0 3px 8px rgba(0,0,0,0.8); animation: fadeInUp 0.8s ease-out forwards 0.3s; opacity: 0; }
-        .loader-slogan { font-size: 0.85rem; font-weight: 700; line-height: 1.4; color: var(--brand-red); text-shadow: 0 2px 4px rgba(0,0,0,0.6); animation: fadeInUp 0.8s ease-out forwards 0.5s; opacity: 0; }
+        .loader-slogan { font-size: 1.05rem; font-weight: 800; line-height: 1.4; color: var(--brand-red); text-shadow: 0 2px 4px rgba(0,0,0,0.6); animation: fadeInUp 0.8s ease-out forwards 0.3s; opacity: 0; margin-top: 10px; }
         @keyframes fadeInUp { to { transform: translateY(0); opacity: 1; } }
         .loader-counter { font-size: 1.1rem; font-weight: 800; color: #ffffff; margin-top: 15px; font-variant-numeric: tabular-nums; }
-        .loading-bar { width: 130px; height: 4px; background: rgba(255, 255, 255, 0.1); margin: 10px auto 0 auto; border-radius: 10px; overflow: hidden; }
+        .loading-bar { width: 130px; height: 4px; background: rgba(255, 255, 255, 0.15); margin: 10px auto 0 auto; border-radius: 10px; overflow: hidden; }
         .loading-bar span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--brand-red) 0%, #ff4d5e 100%); box-shadow: 0 0 8px var(--brand-red); border-radius: 10px; }
         .splash-hidden { transform: translateY(-100%); pointer-events: none; }
 
-        /* ================= الهيدر الداخلي ================= */
-        .sticky-wrapper { position: sticky; top: 0; z-index: 1000; background: var(--header-bg); box-shadow: 0 1px 10px rgba(0,0,0,0.03); }
+        /* ================= الهيدر الداخلي (الجزء العلوي) ================= */
+        .sticky-wrapper { position: sticky; top: 0; z-index: 1000; background: var(--header-bg); box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
         header { display: flex; flex-direction: column; align-items: center; padding: 14px 0; position: relative; }
         .header-top { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; }
         
@@ -114,15 +112,15 @@
             background-position: center;
             background-repeat: no-repeat;
             border-radius: 10px;
-            box-shadow: 0 4px 14px rgba(30, 41, 59, 0.05);
         }
         
         .header-left-actions { position: absolute; left: 16px; top: 54px; display: flex; align-items: center; }
         .header-right-actions { position: absolute; right: 16px; top: 54px; display: flex; align-items: center; }
 
+        /* أزرار الهيدر الشفافة الفخمة فوق الخلفية السوداء */
         .cart-trigger, .theme-toggle-btn { 
-            background: var(--button-gray); 
-            color: var(--main-text); 
+            background: rgba(255, 255, 255, 0.1); 
+            color: #ffffff; 
             width: 42px; 
             height: 42px; 
             border-radius: 14px; 
@@ -131,14 +129,15 @@
             justify-content: center; 
             cursor: pointer; 
             font-size: 1.2rem; 
-            border: 1px solid var(--border-color); 
+            border: 1px solid rgba(255, 255, 255, 0.15); 
             position: relative; 
             outline: none;
             user-select: none;
+            backdrop-filter: blur(5px);
         }
         .cart-trigger:active, .theme-toggle-btn:active { transform: scale(0.92); }
 
-        .badge { position: absolute; top: -3px; right: -3px; background: var(--brand-red); color: #ffffff; font-size: 8px; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--white); transform: scale(0); }
+        .badge { position: absolute; top: -3px; right: -3px; background: var(--brand-red); color: #ffffff; font-size: 8px; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #111111; transform: scale(0); }
         .badge.show { transform: scale(1); }
 
         /* ================= ستايل بانر التثبيت المنبثق ================= */
@@ -156,7 +155,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             z-index: 9998;
             opacity: 0;
             pointer-events: none;
@@ -170,17 +169,17 @@
         .banner-left { display: flex; align-items: center; gap: 12px; text-align: right; }
         .banner-logo-mini { width: 48px; height: 48px; background-image: url('./images/logooo.png'); background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 8px; }
         .banner-title { font-size: 0.9rem; font-weight: 800; color: var(--main-text); }
-        .banner-desc { font-size: 0.72rem; font-weight: 700; color: var(--desc-text); margin-top: 2px; }
+        .banner-desc { font-size: 0.72rem; font-weight: 700; color: var(--brand-red); margin-top: 2px; }
         
         .banner-actions { display: flex; align-items: center; gap: 8px; }
         .banner-btn-install { background: var(--brand-red); color: #ffffff; border: none; padding: 8px 16px; border-radius: 10px; font-size: 0.8rem; font-weight: 800; cursor: pointer; white-space: nowrap; box-shadow: 0 4px 10px rgba(255, 0, 21, 0.2); }
         .banner-btn-close { background: transparent; color: var(--desc-text); border: none; font-size: 1.1rem; cursor: pointer; padding: 4px; font-weight: bold; }
 
         /* شريط الأقسام */
-        .category-nav { display: flex; overflow-x: auto; white-space: nowrap; padding: 14px 16px; gap: 16px; scrollbar-width: none; background: var(--white); border-bottom: 1px solid var(--border-color); }
+        .category-nav { display: flex; overflow-x: auto; white-space: nowrap; padding: 14px 16px; gap: 16px; scrollbar-width: none; background: var(--card-bg); border-bottom: 1px solid var(--border-color); }
         .category-nav::-webkit-scrollbar { display: none; }
         .cat-item { display: flex; flex-direction: column; align-items: center; min-width: 76px; cursor: pointer; }
-        .cat-img-box { width: 68px; height: 68px; border-radius: 20px; background: var(--white); overflow: hidden; border: 2px solid transparent; box-shadow: 0 4px 8px rgba(0,0,0,0.03); }
+        .cat-img-box { width: 68px; height: 68px; border-radius: 20px; background: var(--card-bg); overflow: hidden; border: 2px solid transparent; box-shadow: 0 4px 8px rgba(0,0,0,0.03); }
         .cat-img-box img { width: 100%; height: 100%; object-fit: cover; }
         
         .cat-item.active .cat-img-box { border-color: var(--brand-red); border-width: 2.5px; transform: scale(1.03); }
@@ -199,7 +198,7 @@
         }
 
         .food-card { 
-            background: var(--white); 
+            background: var(--card-bg); 
             border-radius: 18px; 
             display: flex; 
             flex-direction: column; 
@@ -253,7 +252,6 @@
             margin-bottom: 2px; 
         }
 
-        /* تنسيق التفاصيل والمحتويات بخط صغير جداً تحت الاسم */
         .food-ingredients {
             font-size: 0.65rem; 
             color: var(--desc-text);
@@ -329,7 +327,7 @@
 
         /* ================= الفوتر ================= */
 
-        .restaurant-footer { padding: 25px 15px; text-align: center; background: var(--white); border-top: 1px solid var(--border-color); margin-top: 25px; padding-bottom: 35px; }
+        .restaurant-footer { padding: 25px 15px; text-align: center; background: var(--card-bg); border-top: 1px solid var(--border-color); margin-top: 25px; padding-bottom: 35px; }
         
         .footer-address-bar {
             font-size: 0.78rem; 
@@ -354,7 +352,7 @@
 
         /* السلة والـ Modals */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); z-index: 2000; display: none; justify-content: center; align-items: flex-end; backdrop-filter: blur(4px); }
-        .modal-content { background: var(--white); width: 100%; max-width: 480px; padding: 16px 20px; border-radius: 22px 22px 0 0; max-height: 82vh; overflow-y: auto; color: var(--main-text); box-shadow: 0 -5px 25px rgba(0,0,0,0.25); }
+        .modal-content { background: var(--card-bg); width: 100%; max-width: 480px; padding: 16px 20px; border-radius: 22px 22px 0 0; max-height: 82vh; overflow-y: auto; color: var(--main-text); box-shadow: 0 -5px 25px rgba(0,0,0,0.25); }
 
         .cart-item-card { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: var(--button-gray); border-radius: 12px; margin-bottom: 8px; }
         .cart-item-img { width: 42px; height: 42px; border-radius: 8px; object-fit: cover; }
@@ -377,12 +375,12 @@
         .delivery-search-container { position: relative; margin-bottom: 10px; }
         .search-results-list { 
             position: absolute; top: 100%; left: 0; right: 0; 
-            background: var(--white); border: 1px solid var(--border-color); 
+            background: var(--card-bg); border: 1px solid var(--border-color); 
             border-radius: 10px; max-height: 160px; overflow-y: auto; 
             z-index: 2500; box-shadow: 0 4px 15px rgba(0,0,0,0.15); 
             display: none; 
         }
-        .search-item { padding: 10px 12px; font-size: 0.78rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+        .search-item { padding: 10px 12px; font-size: 0.78rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); color: var(--main-text); }
         .search-item:hover { background: rgba(255, 0, 21, 0.05); color: var(--brand-red); }
         .search-item-price { font-weight: 800; font-size: 0.75rem; }
 
@@ -391,12 +389,11 @@
 </head>
 <body>
 
-    <!-- شاشة التحميل -->
+    <!-- شاشة التحميل (الدخلة) -->
     <div id="splash-screen">
         <div class="loader-content">
             <div class="loader-logo-final"></div>
-            <h2 class="loader-text">مستر كوفتا | MR.KOFTA</h2>
-            <p class="loader-slogan">#غيرنا_مفهوم_الساندوتش 🍢🔥</p>
+            <p class="loader-slogan">#غيرنا_مفهوم_الساندوتش</p>
             <div class="loader-counter" id="loadCounter">0%</div>
             <div class="loading-bar"><span id="loadProgress"></span></div>
         </div>
@@ -408,7 +405,7 @@
             <div class="banner-logo-mini"></div>
             <div>
                 <div class="banner-title">تطبيق مستر كوفتا الرسمي</div>
-                <div class="banner-desc">ثبته الآن لتجربة تصفح أسرع وأسهل 🔥</div>
+                <div class="banner-desc">#غيرنا_مفهوم_الساندوتش</div>
             </div>
         </div>
         <div class="banner-actions">
@@ -507,7 +504,6 @@
     </div>
 
     <script>
-        // رابط الشيت المحدث بالكامل المربوط مع الكود
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJwxOU7vj2KTZnnbEG2V_9__o65Cs49noK5QX4Wu8H1ggAtps9eeCPUnhjrTFyiMXBuZkNYrgU6I9W/pub?output=csv';
         const IMAGES_PATH = "./images/"; 
         let menuData = [], cart = [];
@@ -531,6 +527,7 @@
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme_preference', newTheme);
             updateThemeUI(newTheme);
@@ -702,7 +699,6 @@
             if (progressEl) progressEl.style.width = `${percentage}%`;
         }
 
-        // ================= قراءة الشيت الجديد بالأعمدة (القسم - الصنف - السعر - المحتويات) =================
         async function loadMenu() {
             const timestamp = Date.now();
             updateProgressUI(5); 
@@ -718,7 +714,7 @@
                     const category = col[0] ? col[0].trim() : "أخرى";
                     const name = col[1] ? col[1].trim() : "";
                     const rawPrice = col[2] ? col[2].trim() : "0";
-                    const desc = col[3] ? col[3].trim() : ""; // المحتويات والتفاصيل
+                    const desc = col[3] ? col[3].trim() : "";
                     
                     if(!name || name === "اسم الصنف" || name === "الصنف") return null;
                     
