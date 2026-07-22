@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mr-kofta-v1';
+const CACHE_NAME = 'mr-kofta-v3';
 const urlsToCache = [
   './',
   './index.html',
