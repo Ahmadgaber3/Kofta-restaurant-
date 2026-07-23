@@ -275,22 +275,30 @@
             min-width: 0;
         }
 
-        /* الكارت الكبير */
+        /* الكارت الكبير (العروض والوجبات المشوية) */
         .food-card.large-food-card {
-            padding: 8px 10px 8px 10px; 
-            gap: 4px;
+            padding: 10px; 
+            gap: 6px;
         }
 
         .food-card.large-food-card .card-top-content {
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
         }
 
         .food-card.large-food-card .card-image-wrapper {
             width: 100%;
             height: auto;
-            aspect-ratio: 2.7 / 1;
+            aspect-ratio: 3 / 4; /* إطار أبعاد البوستر الطولي */
             border-radius: 12px;
+            background: #121212;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .food-card.large-food-card .item-img {
+            object-fit: contain; /* إظهار صورة العرض كاملة بدون أي قص */
         }
 
         .food-card.large-food-card .food-name {
@@ -301,13 +309,13 @@
         }
 
         .food-card.large-food-card .food-ingredients {
-            font-size: 0.7rem;
-            margin-top: 1px;
+            font-size: 0.72rem;
+            margin-top: 2px;
         }
 
         .food-card.large-food-card .card-bottom-content {
-            margin-top: 2px;
-            padding-top: 4px;
+            margin-top: 4px;
+            padding-top: 6px;
         }
 
         .food-name { 
@@ -811,6 +819,8 @@
             const normalized = catName.trim().toLowerCase();
             return normalized.includes("وجبا") || 
                    normalized.includes("طلبا") || 
+                   normalized.includes("عرض") || 
+                   normalized.includes("عروض") || 
                    normalized.includes("شواية") || 
                    normalized.includes("شوايه") || 
                    normalized.includes("مشوي");
