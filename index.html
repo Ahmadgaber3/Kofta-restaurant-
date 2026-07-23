@@ -105,8 +105,8 @@
 
         /* ================= الهيدر الداخلي ================= */
         .sticky-wrapper { position: sticky; top: 0; z-index: 1000; background: var(--header-bg); border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); }
-        header { display: flex; flex-direction: column; align-items: center; padding: 14px 0; position: relative; }
-        .header-top { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; }
+        header { display: flex; flex-direction: column; align-items: center; padding: 14px 0 10px 0; position: relative; }
+        .header-top { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
         
         .header-logo-final { 
             width: 120px; 
@@ -116,6 +116,34 @@
             background-position: center;
             background-repeat: no-repeat;
             border-radius: 10px;
+        }
+
+        /* ستايل مواعيد العمل والألارم تحت اللوجو */
+        .work-hours-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            padding: 4px 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: var(--main-text);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+
+        .alarm-icon {
+            font-size: 0.9rem;
+            animation: ringBell 2s infinite ease-in-out;
+        }
+
+        @keyframes ringBell {
+            0%, 100% { transform: rotate(0deg); }
+            10%, 30% { transform: rotate(15deg); }
+            20%, 40% { transform: rotate(-15deg); }
+            50% { transform: rotate(0deg); }
         }
         
         .header-left-actions { position: absolute; left: 16px; top: 54px; display: flex; align-items: center; }
@@ -247,7 +275,7 @@
             min-width: 0;
         }
 
-        /* الكارت الكبير (للوجبات والطلبات) */
+        /* الكارت الكبير */
         .food-card.large-food-card {
             padding: 8px 10px 8px 10px; 
             gap: 4px;
@@ -280,35 +308,6 @@
         .food-card.large-food-card .card-bottom-content {
             margin-top: 2px;
             padding-top: 4px;
-        }
-
-        /* الكارت الخاص بقسم العروض (مخصص للصور الطولية والبوسترات) */
-        .food-card.offer-food-card {
-            padding: 10px;
-            gap: 8px;
-        }
-
-        .food-card.offer-food-card .card-top-content {
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .food-card.offer-food-card .card-image-wrapper {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 0.85 / 1;
-            border-radius: 12px;
-            background: #000000;
-        }
-
-        .food-card.offer-food-card .item-img {
-            object-fit: contain;
-        }
-
-        .food-card.offer-food-card .food-name {
-            font-size: 1.1rem;
-            white-space: normal;
-            line-height: 1.3;
         }
 
         .food-name { 
@@ -528,6 +527,11 @@
 
             <div class="header-top">
                 <div class="header-logo-final"></div>
+                <!-- مواعيد العمل مع الألارم تحت اللوجو -->
+                <div class="work-hours-badge">
+                    <span class="alarm-icon">⏰</span>
+                    <span>مواعيد العمل: من 12 ظهراً لـ 2 ليلاً</span>
+                </div>
             </div>
 
             <div class="header-left-actions">
@@ -553,11 +557,7 @@
             <span style="font-weight: 800; font-size: 0.8rem; display: block; margin-bottom: 5px;">📞 أرقام الدليفري والطلبات:</span>
             <a href="tel:01210780759">01210780759</a>
             <a href="tel:01080019202">01080019202</a>
-            <span style="font-weight: 700; font-size: 0.75rem; display: block; margin-top: 6px; color: var(--desc-text);">
-                للشكاوى والمقترحات (فقط): 
-                <a href="tel:01224221082" style="display:inline; margin:0 4px;">01224221082</a> - 
-                <a href="tel:01028533044" style="display:inline; margin:0 4px;">01028533044</a>
-            </span>
+            <span style="font-weight: 700; font-size: 0.75rem; display: block; margin-top: 6px; color: var(--desc-text);">للشكاوى والمقترحات (فقط): <a href="tel:01080019203" style="display:inline; margin:0;">01080019203</a></span>
         </div>
         <p class="footer-rights">جميع الحقوق محفوظة لمطعم مستر كوفتا © 2026</p>
         <div class="dev-credit">
@@ -806,12 +806,6 @@
             filterCat(currentActiveCat);
         }
 
-        function isOfferCategory(catName) {
-            if (!catName) return false;
-            const normalized = catName.trim().toLowerCase();
-            return normalized.includes("عروض") || normalized.includes("عرض");
-        }
-
         function isLargeCategory(catName) {
             if (!catName) return false;
             const normalized = catName.trim().toLowerCase();
@@ -841,7 +835,6 @@
             if(el) { document.querySelectorAll('.cat-item').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
             const filtered = menuData.filter(i => i.category === cat);
             const isLarge = isLargeCategory(cat);
-            const isOffer = isOfferCategory(cat);
 
             document.getElementById('menuList').innerHTML = filtered.map(item => {
                 
@@ -861,7 +854,7 @@
                 }
 
                 return `
-                <div class="food-card ${isOffer ? 'offer-food-card' : (isLarge ? 'large-food-card' : '')}" id="card-${item.id}">
+                <div class="food-card ${isLarge ? 'large-food-card' : ''}" id="card-${item.id}">
                     <div class="card-top-content">
                         <div class="card-image-wrapper">
                             <img class="item-img" src="${IMAGES_PATH}${item.name}.jpg" onerror="this.onerror=null; this.src='${IMAGES_PATH}default.jpg';">
